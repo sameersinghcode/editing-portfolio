@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sameer Singh — Filmmaker & Visual Storyteller</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #080808;
+  --near-black: #0f0f0f;
+  --white: #f2ede8;
+  --grey: #888;
+  --accent: #e8c96d;
+  --accent-dim: rgba(232,201,109,0.12);
+  --red: #c0392b;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed; top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+.cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(232,201,109,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, width 0.3s, height 0.3s, border-color 0.3s;
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 14px; height: 14px; }
+body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 56px; height: 56px; border-color: var(--accent); }
+
+/* ── GRAIN OVERLAY ── */
+.grain {
+  position: fixed; inset: -200%;
+  width: 400%; height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9990;
+  animation: grain 0.5s steps(1) infinite;
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-2%,-3%)}20%{transform:translate(3%,1%)}30%{transform:translate(-1%,3%)}40%{transform:translate(3%,-2%)}50%{transform:translate(-3%,2%)}60%{transform:translate(1%,-3%)}70%{transform:translate(3%,2%)}80%{transform:translate(-2%,3%)}90%{transform:translate(2%,-1%)}
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 60px;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+  mix-blend-mode: normal;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(242,237,232,0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--accent);
+  border: none;
+  padding: 10px 24px;
+  cursor: none;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: opacity 0.3s;
+  text-decoration: none;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 60px 80px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,0.4) 50%, rgba(8,8,8,0.7) 100%),
+    linear-gradient(135deg, #0f0f0f 0%, #1a1208 50%, #0f0f0f 100%);
+}
+.hero-reel-bg {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  opacity: 0.18;
+  overflow: hidden;
+}
+.hero-reel-bg div {
+  background: #222;
+  animation: reelPulse 4s ease-in-out infinite;
+}
+.hero-reel-bg div:nth-child(2n) { animation-delay: 0.5s; background: #1a1a1a; }
+.hero-reel-bg div:nth-child(3n) { animation-delay: 1s; }
+.hero-reel-bg div:nth-child(4n) { animation-delay: 1.5s; }
+@keyframes reelPulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+
+.hero-eyebrow {
+  position: relative;
+  font-size: 0.68rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s ease forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 40px; height: 1px;
+  background: var(--accent);
+}
+.hero-title {
+  position: relative;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 12vw, 12rem);
+  line-height: 0.88;
+  letter-spacing: 2px;
+  color: var(--white);
+  opacity: 0;
+  animation: fadeUp 1s 0.5s ease forwards;
+}
+.hero-title em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+  font-size: 0.72em;
+  letter-spacing: 4px;
+}
+.hero-bottom {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 40px;
+  opacity: 0;
+  animation: fadeUp 1s 0.8s ease forwards;
+}
+.hero-desc {
+  max-width: 380px;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(242,237,232,0.55);
+}
+.hero-desc strong { color: var(--white); font-weight: 400; }
+.hero-stats {
+  display: flex; gap: 50px;
+}
+.hero-stat .num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  color: var(--accent);
+  line-height: 1;
+}
+.hero-stat .lbl {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-top: 4px;
+}
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0;
+  animation: fadeUp 1s 1.2s ease forwards;
+}
+.scroll-indicator span {
+  font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(242,237,232,0.3);
+}
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, rgba(232,201,109,0.6), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100%{transform:scaleY(1);opacity:0.6} 50%{transform:scaleY(1.3);opacity:1} }
+
+/* ── MARQUEE ── */
+.marquee-wrap {
+  overflow: hidden;
+  background: var(--accent);
+  padding: 14px 0;
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+.marquee-track span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 4px;
+  color: var(--black);
+  padding: 0 30px;
+}
+.marquee-track span.dot { color: rgba(0,0,0,0.3); padding: 0 10px; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTIONS COMMON ── */
+section { padding: 120px 60px; }
+.section-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-eyebrow::before { content:''; width:30px; height:1px; background:var(--accent); }
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 1;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+.section-title em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+/* ── ABOUT ── */
+#about { background: var(--near-black); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 70px;
+  align-items: start;
+}
+.about-visual {
+  position: relative;
+}
+.about-img-frame {
+  position: relative;
+  aspect-ratio: 3/4;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+.about-img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+  z-index: 1;
+}
+.about-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  background: linear-gradient(160deg, #161616, #1f1a0f);
+}
+.about-img-label {
+  position: absolute; bottom: 20px; right: -20px;
+  background: var(--accent);
+  color: var(--black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  padding: 8px 16px;
+  z-index: 2;
+}
+.about-frame-border {
+  position: absolute; top: 20px; left: 20px; right: -20px; bottom: -20px;
+  border: 1px solid rgba(232,201,109,0.2);
+  z-index: 0;
+}
+.about-text { padding-top: 20px; }
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: rgba(242,237,232,0.65);
+  margin-bottom: 20px;
+}
+.about-text p strong { color: var(--white); font-weight: 400; }
+.about-skills {
+  margin-top: 40px;
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.skill-tag {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border: 1px solid rgba(232,201,109,0.3);
+  color: rgba(232,201,109,0.7);
+}
+.about-clients {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.about-clients h4 {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 20px;
+}
+.client-logos {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+}
+.client-logo {
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(242,237,232,0.4);
+  transition: all 0.3s;
+}
+.client-logo:hover { color: var(--white); border-color: rgba(232,201,109,0.3); }
+
+/* ── WORK ── */
+#work { background: var(--black); }
+.work-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 60px;
+}
+.filter-tabs { display: flex; gap: 4px; }
+.filter-tab {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(242,237,232,0.4);
+  cursor: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s;
+}
+.filter-tab:hover, .filter-tab.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+.video-item {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #111;
+  cursor: none;
+}
+.video-item.featured {
+  grid-column: span 2;
+  aspect-ratio: 16/9;
+}
+.video-thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.4s ease;
+  filter: brightness(0.6) saturate(0.8);
+}
+.video-item video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.video-item:hover video { opacity: 1; }
+.video-item:hover .video-thumb {
+  transform: scale(1.04);
+  filter: brightness(0.3) saturate(0.4);
+}
+.video-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 50%);
+  padding: 24px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  transition: opacity 0.3s;
+}
+.video-item:hover .video-overlay { opacity: 0.6; }
+.video-cat {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.video-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--white);
+}
+.video-item.featured .video-title { font-size: 1.8rem; }
+.video-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 60px; height: 60px;
+  border: 1px solid rgba(232,201,109,0.7);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+.video-play::after {
+  content: '';
+  border-left: 16px solid var(--accent);
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  margin-left: 4px;
+}
+.video-item:hover .video-play { transform: translate(-50%, -50%) scale(1); }
+/* Placeholder thumbnails with gradient */
+.thumb-gradient-1 { background: linear-gradient(135deg, #1a0a00, #3d1c02, #1a0a00); }
+.thumb-gradient-2 { background: linear-gradient(135deg, #0a0a1a, #1c1c3d, #0a0a1a); }
+.thumb-gradient-3 { background: linear-gradient(135deg, #0a1a0a, #1c3d1c, #0a1a0a); }
+.thumb-gradient-4 { background: linear-gradient(135deg, #1a0a0a, #3d1c1c, #1a0a0a); }
+.thumb-gradient-5 { background: linear-gradient(135deg, #0a1a1a, #1c3d3d, #0a1a1a); }
+.thumb-inner-icon {
+  position: absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size: 3rem; opacity: 0.15;
+}
+
+/* ── SERVICES ── */
+#services {
+  background: var(--near-black);
+  position: relative;
+  overflow: hidden;
+}
+#services::before {
+  content: 'SERVICES';
+  position: absolute;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18vw;
+  color: rgba(255,255,255,0.015);
+  bottom: -30px; right: -20px;
+  letter-spacing: 8px;
+  pointer-events: none;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 70px;
+}
+.service-card {
+  padding: 50px 40px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+.service-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.service-card:hover {
+  background: rgba(232,201,109,0.06);
+  border-color: rgba(232,201,109,0.2);
+}
+.service-card:hover::before { transform: scaleX(1); }
+.service-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  margin-bottom: 30px;
+  transition: color 0.4s;
+}
+.service-card:hover .service-num { color: rgba(232,201,109,0.1); }
+.service-icon { font-size: 2rem; margin-bottom: 20px; }
+.service-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.service-desc {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: rgba(242,237,232,0.45);
+}
+.service-list {
+  margin-top: 20px;
+  list-style: none;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.service-list li {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: rgba(242,237,232,0.35);
+  display: flex; align-items: center; gap: 8px;
+}
+.service-list li::before { content: '—'; color: var(--accent); }
+
+/* ── TESTIMONIALS ── */
+#testimonials { background: var(--black); }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 70px;
+}
+.testimonial-card {
+  padding: 40px 36px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+  transition: all 0.3s;
+}
+.testimonial-card:hover {
+  background: rgba(232,201,109,0.04);
+  border-color: rgba(232,201,109,0.15);
+}
+.testimonial-quote {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 0.8;
+  margin-bottom: 20px;
+}
+.testimonial-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: rgba(242,237,232,0.7);
+  margin-bottom: 30px;
+}
+.testimonial-author {
+  display: flex; align-items: center; gap: 14px;
+}
+.author-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-dim), rgba(255,255,255,0.05));
+  border: 1px solid rgba(232,201,109,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.author-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+.author-role {
+  font-size: 0.68rem;
+  color: var(--grey);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.stars { color: var(--accent); font-size: 0.75rem; margin-bottom: 14px; }
+
+/* ── CONTACT ── */
+#contact {
+  background: var(--near-black);
+  position: relative;
+  overflow: hidden;
+}
+#contact::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  top: -200px; right: -200px;
+  background: radial-gradient(circle, rgba(232,201,109,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  margin-top: 70px;
+  align-items: start;
+}
+.contact-info p {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: rgba(242,237,232,0.55);
+  margin-bottom: 50px;
+}
+.contact-details { display: flex; flex-direction: column; gap: 20px; }
+.contact-item {
+  display: flex; align-items: center; gap: 16px;
+}
+.contact-item-icon {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(232,201,109,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.contact-item-text .label {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+.contact-item-text .value {
+  font-size: 0.9rem;
+  color: var(--white);
+  margin-top: 2px;
+}
+.contact-form { display: flex; flex-direction: column; gap: 2px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group label {
+  font-size: 0.62rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--grey);
+  padding: 12px 20px 0;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-bottom: none;
+}
+.form-group input, .form-group select, .form-group textarea {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-top: none;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  padding: 12px 20px 16px;
+  outline: none;
+  resize: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: rgba(232,201,109,0.4);
+  background: rgba(232,201,109,0.04);
+}
+.form-group select option { background: #1a1a1a; }
+.form-submit {
+  background: var(--accent);
+  color: var(--black);
+  border: none;
+  padding: 18px 40px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  cursor: none;
+  transition: opacity 0.3s;
+  margin-top: 2px;
+  align-self: flex-start;
+}
+.form-submit:hover { opacity: 0.85; }
+
+/* ── FOOTER ── */
+footer {
+  background: #050505;
+  padding: 50px 60px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 4px;
+  color: rgba(242,237,232,0.3);
+  text-decoration: none;
+}
+.footer-logo span { color: var(--accent); }
+.footer-copy {
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: rgba(242,237,232,0.2);
+}
+.footer-socials { display: flex; gap: 24px; }
+.footer-socials a {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(242,237,232,0.35);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-socials a:hover { color: var(--accent); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  #hero { padding: 0 24px 60px; }
+  .hero-title { font-size: clamp(3.5rem, 15vw, 6rem); }
+  .hero-bottom { flex-direction: column; gap: 30px; align-items: flex-start; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+  .video-grid { grid-template-columns: 1fr; }
+  .video-item.featured { grid-column: span 1; }
+  .services-grid, .testimonials-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">SAMEER<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-reel-bg">
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+  </div>
+  <div class="hero-eyebrow">Filmmaker · Videographer · Visual Storyteller</div>
+  <div class="hero-title">
+    SAMEER<br>
+    <em>Singh</em>
+  </div>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      <strong>Cinematic stories from the heart of India.</strong> Based in Karnal, Haryana — creating visual narratives for brands, travel, and the world between frames.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">700K+</div>
+        <div class="lbl">YouTube Reach</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">4+</div>
+        <div class="lbl">Years Editing</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">∞</div>
+        <div class="lbl">Stories Told</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>CINEMATIC VIDEOGRAPHY</span><span class="dot">✦</span>
+    <span>TRAVEL FILMS</span><span class="dot">✦</span>
+    <span>BRAND CONTENT</span><span class="dot">✦</span>
+    <span>DAVINCI RESOLVE</span><span class="dot">✦</span>
+    <span>MOTION GRAPHICS</span><span class="dot">✦</span>
+    <span>STORYTELLING</span><span class="dot">✦</span>
+    <span>AVAILABLE WORLDWIDE</span><span class="dot">✦</span>
+    <span>CINEMATIC VIDEOGRAPHY</span><span class="dot">✦</span>
+    <span>TRAVEL FILMS</span><span class="dot">✦</span>
+    <span>BRAND CONTENT</span><span class="dot">✦</span>
+    <span>DAVINCI RESOLVE</span><span class="dot">✦</span>
+    <span>MOTION GRAPHICS</span><span class="dot">✦</span>
+    <span>STORYTELLING</span><span class="dot">✦</span>
+    <span>AVAILABLE WORLDWIDE</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-eyebrow">About Me</div>
+  <h2 class="section-title">The <em>Eye</em><br>Behind the Lens</h2>
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-frame-border"></div>
+      <div class="about-img-frame">
+        <div class="about-img-placeholder">🎬</div>
+        <div class="about-img-label">Sameer Singh · Karnal</div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <p>I'm <strong>Sameer Singh</strong>, a self-built filmmaker and content creator from <strong>Karnal, Haryana</strong>. I started with nothing but a camera and a dream — and turned it into a creative practice that spans storytelling, editing, branding, and travel filmmaking.</p>
+      <p>My work lives at the intersection of <strong>cinematic craft and authentic emotion</strong>. Whether it's a travel film shot across the Himalayas or a brand story that needs to move people — I bring the same obsessive attention to every frame.</p>
+      <p>I teach <strong>advanced video editing on Instagram</strong>, work with international brands, and run <strong>Grace of God Organic</strong> — my family's agri-business. One person, many roles, one relentless drive.</p>
+      <div class="about-skills">
+        <span class="skill-tag">DaVinci Resolve</span>
+        <span class="skill-tag">Cinematic Editing</span>
+        <span class="skill-tag">Color Grading</span>
+        <span class="skill-tag">Motion Graphics</span>
+        <span class="skill-tag">Travel Filmmaking</span>
+        <span class="skill-tag">Brand Storytelling</span>
+        <span class="skill-tag">Reels & Shorts</span>
+        <span class="skill-tag">Content Strategy</span>
+      </div>
+      <div class="about-clients">
+        <h4>Clients & Collaborations</h4>
+        <div class="client-logos">
+          <div class="client-logo">deBridge</div>
+          <div class="client-logo">Royale Fitness</div>
+          <div class="client-logo">LastMint</div>
+          <div class="client-logo">Crowncast</div>
+          <div class="client-logo">The Hosteller</div>
+          <div class="client-logo">Solana Summit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header reveal">
+    <div>
+      <div class="section-eyebrow">Portfolio</div>
+      <h2 class="section-title">Selected <em>Work</em></h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterWork(this,'all')">All</button>
+      <button class="filter-tab" onclick="filterWork(this,'travel')">Travel</button>
+      <button class="filter-tab" onclick="filterWork(this,'brand')">Brand</button>
+      <button class="filter-tab" onclick="filterWork(this,'web3')">Web3</button>
+    </div>
+  </div>
+
+  <div class="video-grid" id="videoGrid">
+
+    <!-- Featured -->
+    <div class="video-item featured reveal" data-cat="travel">
+      <div class="thumb-gradient-1" style="position:absolute;inset:0;"></div>
+      <div class="thumb-inner-icon">🏔️</div>
+      <video muted loop playsinline preload="none"
+        onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;">
+        <source src="" type="video/mp4">
+      </video>
+      <div class="video-play"></div>
+      <div class="video-overlay">
+        <div class="video-cat">Travel Film</div>
+        <div class="video-title">Dalhousie & Khajjiar — Where the Mist Lives</div>
+      </div>
+    </div>
+
+    <div class="video-item reveal" data-cat="brand">
+      <div class="thumb-gradient-4" style="position:absolute;inset:0;"></div>
+      <div class="thumb-inner-icon">💪</div>
+      <video muted loop playsinline preload="none"
+        onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;">
+        <source src="" type="video/mp4">
+      </video>
+      <div class="video-play"></div>
+      <div class="video-overlay">
+        <div class="video-cat">Brand Film</div>
+        <div class="video-title">Royale Fitness Studio Promo</div>
+      </div>
+    </div>
+
+    <div class="video-item reveal" data-cat="web3">
+      <div class="thumb-gradient-2" style="position:absolute;inset:0;"></div>
+      <div class="thumb-inner-icon">⛓️</div>
+      <video muted loop playsinline preload="none"
+        onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;">
+        <source src="" type="video/mp4">
+      </video>
+      <div class="video-play"></div>
+      <div class="video-overlay">
+        <div class="video-cat">Web3 / Blockchain</div>
+        <div class="video-title">deBridge Twitter Spaces Highlights</div>
+      </div>
+    </div>
+
+    <div class="video-item reveal" data-cat="web3">
+      <div class="thumb-gradient-3" style="position:absolute;inset:0;"></div>
+      <div class="thumb-inner-icon">🌐</div>
+      <video muted loop playsinline preload="none"
+        onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;">
+        <source src="" type="video/mp4">
+      </video>
+      <div class="video-play"></div>
+      <div class="video-overlay">
+        <div class="video-cat">Event Aftermovie</div>
+        <div class="video-title">Solana Summit DePIN Aftermovie</div>
+      </div>
+    </div>
+
+    <div class="video-item reveal" data-cat="brand">
+      <div class="thumb-gradient-5" style="position:absolute;inset:0;"></div>
+      <div class="thumb-inner-icon">🎁</div>
+      <video muted loop playsinline preload="none"
+        onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;">
+        <source src="" type="video/mp4">
+      </video>
+      <div class="video-play"></div>
+      <div class="video-overlay">
+        <div class="video-cat">Campaign Ad</div>
+        <div class="video-title">Crowncast Giveaway Campaign</div>
+      </div>
+    </div>
+
+    <div class="video-item reveal" data-cat="travel">
+      <div class="thumb-gradient-1" style="position:absolute;inset:0;"></div>
+      <div class="thumb-inner-icon">🌿</div>
+      <video muted loop playsinline preload="none"
+        onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;">
+        <source src="" type="video/mp4">
+      </video>
+      <div class="video-play"></div>
+      <div class="video-overlay">
+        <div class="video-cat">Travel Film</div>
+        <div class="video-title">Chakrata — The Forgotten Hills</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="reveal">
+    <div class="section-eyebrow">What I Do</div>
+    <h2 class="section-title">Services &amp; <em>Expertise</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">🎬</div>
+      <div class="service-name">Cinematic Videography</div>
+      <p class="service-desc">Full production from concept to final cut. I shoot and edit travel films, brand documentaries, and storytelling reels that feel like cinema.</p>
+      <ul class="service-list">
+        <li>Travel & Destination Films</li>
+        <li>Brand Documentary Videos</li>
+        <li>Event Aftermovies</li>
+        <li>Cinematic Reels</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-icon">🎞️</div>
+      <div class="service-name">Video Editing & Post</div>
+      <p class="service-desc">Advanced post-production using DaVinci Resolve — from raw footage to polished final delivery with color grading, sound design, and motion graphics.</p>
+      <ul class="service-list">
+        <li>Color Grading & LUTs</li>
+        <li>Motion Graphics</li>
+        <li>Audio Design & Sync</li>
+        <li>Podcast Edits</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-icon">📲</div>
+      <div class="service-name">Content Strategy</div>
+      <p class="service-desc">Social-first content creation for Instagram, YouTube, and beyond. Reels, Shorts, and brand content engineered for reach and retention.</p>
+      <ul class="service-list">
+        <li>Instagram Reels & Shorts</li>
+        <li>YouTube Channel Growth</li>
+        <li>Brand Storytelling</li>
+        <li>Content Calendars</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal">
+    <div class="section-eyebrow">Client Words</div>
+    <h2 class="section-title">What They <em>Say</em></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-quote">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Sameer has an exceptional eye for storytelling. The aftermovie he created for our summit captured the energy and vision of the event perfectly. Truly cinematic work.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🌐</div>
+        <div>
+          <div class="author-name">Sherry Peter</div>
+          <div class="author-role">deBridge · Collaborator</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-quote">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Working with Sameer was seamless. He understood our brand instantly and delivered a fitness promo video that our franchise investors loved. Very professional for someone so young.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">💪</div>
+        <div>
+          <div class="author-name">Royale Fitness Team</div>
+          <div class="author-role">Royale Fitness Studio</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-quote">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">His editing style is distinct — he doesn't just cut footage, he builds atmosphere. Our campaign video drove incredible engagement. Will definitely hire again.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🏆</div>
+        <div>
+          <div class="author-name">Crowncast Team</div>
+          <div class="author-role">Crowncast · Social Media</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2 class="section-title">Let's Make<br><em>Something</em> Great</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <p>Whether you're a travel brand, startup, or creator looking for a collaborator — I'm open to the right projects. Based in India, working globally.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <div class="label">Location</div>
+            <div class="value">Karnal, Haryana, India</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-text">
+            <div class="label">Email</div>
+            <div class="value">sameer@graceofgod.in</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📱</div>
+          <div class="contact-item-text">
+            <div class="label">Instagram</div>
+            <div class="value">@sameersingh</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🌍</div>
+          <div class="contact-item-text">
+            <div class="label">Availability</div>
+            <div class="value">Open to International Projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="John Smith">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="hello@brand.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Project Type</label>
+        <select>
+          <option>Travel Film</option>
+          <option>Brand Video</option>
+          <option>Event Aftermovie</option>
+          <option>Instagram Reels</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tell Me About Your Project</label>
+        <textarea rows="5" placeholder="Describe your vision, timeline, and budget..."></textarea>
+      </div>
+      <button class="form-submit">SEND MESSAGE →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">SAMEER<span>.</span></a>
+  <div class="footer-copy">© 2025 Sameer Singh · All Rights Reserved</div>
+  <div class="footer-socials">
+    <a href="#">Instagram</a>
+    <a href="#">YouTube</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+function animateRing() {
+  rx += (mx-rx)*0.12; ry += (my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// FILTER WORK
+function filterWork(btn, cat) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.video-item').forEach(item => {
+    const itemCat = item.dataset.cat;
+    item.style.display = (cat === 'all' || itemCat === cat) ? '' : 'none';
+  });
+}
+
+// CONTACT FORM
+document.querySelector('.form-submit').addEventListener('click', function() {
+  this.textContent = 'MESSAGE SENT ✓';
+  this.style.background = '#2ecc71';
+  setTimeout(() => { this.textContent = 'SEND MESSAGE →'; this.style.background = ''; }, 3000);
+});
+
+// NAV SCROLL EFFECT
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 80) {
+    nav.style.background = 'rgba(8,8,8,0.97)';
+    nav.style.backdropFilter = 'blur(12px)';
+  } else {
+    nav.style.background = '';
+    nav.style.backdropFilter = '';
+  }
+});
+</script>
+</body>
+</html>
